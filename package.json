@@ -1,0 +1,22 @@
+{
+  "name": "lecture-scheduling-model-api",
+  "version": "1.0.0",
+  "description": "A lecture module where admin an schedule course, lecture, instructor.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashish Mehra",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "mongo": "^0.1.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.2.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.11"
+  }
+}
