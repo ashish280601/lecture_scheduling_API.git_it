@@ -6,6 +6,7 @@ const app = express();
 
 // Importing Routes
 const instructorRoutes = require("./router/instructor.router");
+const courseRoutes = require("./router/course.router")
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -14,6 +15,7 @@ app.use(express.static("public"));
 app.set("port", process.env.port || 3000);
 
 app.use("/api", instructorRoutes);
+app.use("/api", courseRoutes);
 
 (async () => {
   try {
