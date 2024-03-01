@@ -4,10 +4,14 @@ const connectDB = require("./config/dbConfig");
 require("dotenv").config();
 const app = express();
 
-// Importing Routes
+// Importing Routes lecture scheduling routes
 const instructorRoutes = require("./router/instructor.router");
 const courseRoutes = require("./router/course.router")
 const lectureRoutes = require("./router/lecture.router");
+// importing authentication routes
+const adminAuthRoutes = require("./router/authentication/adminAuth.router");
+const instructorAuthRoutes = require("./router/authentication/instructorAuth.router");
+const protectedAdminRoutes = require("./router/authentication/protectedAdmin.router");
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +19,9 @@ app.use(express.json());
 app.use(express.static("public"));
 app.set("port", process.env.port || 3000);
 
+app.use("/api/admin", adminAuthRoutes);
+app.use("/api/instructor", instructorAuthRoutes);
+app.use("/api/admin/protected", protectedAdminRoutes);
 app.use("/api", instructorRoutes);
 app.use("/api", courseRoutes);
 app.use("/api", lectureRoutes);
