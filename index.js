@@ -1,7 +1,8 @@
 // creating a server using express
 const express = require("express");
 const connectDB = require("./config/dbConfig");
-require("dotenv").config();
+const cors = require("cors")
+;require("dotenv").config();
 const app = express();
 
 // Importing Routes lecture scheduling routes
@@ -14,6 +15,7 @@ const instructorAuthRoutes = require("./router/authentication/instructorAuth.rou
 const protectedAdminRoutes = require("./router/authentication/protectedAdmin.router");
 
 // middleware
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
