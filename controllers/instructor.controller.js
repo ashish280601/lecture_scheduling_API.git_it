@@ -14,8 +14,8 @@ exports.getAllInstructors = async (req, res) => {
 // adding instructor controller
 exports.addInstructor = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const newInstructor = new Instructor({ name, email, password });
+    const { name, email } = req.body;
+    const newInstructor = new Instructor({ name, email });
     await newInstructor.save();
     res.status(201).json(newInstructor);
   } catch (err) {
@@ -28,7 +28,7 @@ exports.addInstructor = async (req, res) => {
 exports.updateInstructor = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
     const updatedInstructor = await Instructor.findByIdAndUpdate(
       id,
       { name, email, password },

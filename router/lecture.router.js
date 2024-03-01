@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const lectureController = require('../controllers/lectureController');
+const lectureController = require('../controllers/lectures.controller');
 
-router.get('/lecture', lectureController.getAllLectures);
+router.get('/lecture', lectureController.getAllLecture);
 router.post('/lecture', lectureController.addLecture);
-router.put('/lecture/:id', lectureController.updateLecture); // Add route for updating lecture
-router.delete('/lecture/:id', lectureController.deleteLecture); // Add route for deleting lecture
+router.put('/lecture/:id', lectureController.updateLecture); 
+router.delete('/lecture/:id', lectureController.delLecture); 
 
 module.exports = router;

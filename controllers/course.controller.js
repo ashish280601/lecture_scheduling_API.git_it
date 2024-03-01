@@ -14,13 +14,20 @@ exports.getAllCourse = async (req, res) => {
 // add course
 exports.addCourse = async (req, res) => {
   try {
-    const { date, instructor, course } = req.body;
-    const newLecture = new Lecture({ date, instructor, course });
-    await newLecture.save();
-    res.status(201).json(newLecture);
+    const { name, level, description, image } = req.body;
+    // Create a new course instance
+    const course = new Course({
+      name,
+      level,
+      description,
+      image,
+    });
+    // Save the course to the database
+    await course.save();
+    res.status(201).json(course);
   } catch (error) {
-    console.error(err);
-    res.status(500).json({ message: "Server Error" });
+    console.error("Error creating course:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

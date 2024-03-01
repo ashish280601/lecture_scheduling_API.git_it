@@ -9,11 +9,7 @@ const InstructorSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-    },
-    password:{
-        type: String,
-        required: true,
-    }   
+    } 
 })
 
-module.exports = model("Instructors", InstructorSchema);
+module.exports = model("Instructor", InstructorSchema);
