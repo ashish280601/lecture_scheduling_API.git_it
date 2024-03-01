@@ -1,48 +1,37 @@
-const Instructor = require("../models/Instructor");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const Instructor = require("../../model/authentication/user.model");
 
-exports.loginInstructor = async (req, res) => {
+exports.register = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    // Find the instructor by email
-    const instructor = await Instructor.findOne({ email });
-    if (!instructor) {
-      return res.status(400).json({ message: "Invalid email or password." });
-    }
-    // Compare passwords
-    const isMatch = await bcrypt.compare(password, instructor.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password." });
-    }
-    // Generate JWT token
-    const token = jwt.sign(
-      { _id: instructor._id, role: "instructor" },
-      process.env.JWT_SECRET
-    );
-    res.json({ token });
+    const { username, password } = req.body;
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // Create a new instructor
+    const instructor = new Instructor({ username, password: hashedPassword });
+    await instructor.save();
+    res.status(201).json({ message: "Instructor registered successfully" });
   } catch (error) {
-    console.error("Login failed", error);
-    res.status(500).json({ message: "Server Error" });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.registerInstructor = async (req, res) => {
+exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    // Check if instructor with the email already exists
-    const instructorExists = await Instructor.findOne({ email });
-    if (instructorExists) {
-      return res.status(400).json({ message: "Instructor already exists." });
+    const { username, password } = req.body;
+    // Find the instructor by username
+    const instructor = await Instructor.findOne({ username });
+    if (!instructor) {
+      return res.status(400).json({ message: "Invalid username or password" });
     }
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    // Create new instructor
-    const newInstructor = new Instructor({ email, password: hashedPassword });
-    await newInstructor.save();
-    res.status(201).json({ message: "Instructor registered successfully." });
+    // Compare passwords
+    const passwordMatch = await bcrypt.compare(password, instructor.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ message: "Invalid username or password" });
+    }
+    res.json({ message: "Login successful" });
   } catch (error) {
-    console.error("Registration failed", error);
-    res.status(500).json({ message: "Server Error" });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
