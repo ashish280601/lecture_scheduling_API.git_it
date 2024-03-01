@@ -2,9 +2,10 @@
 const express = require("express");
 const connectDB = require("./config/dbConfig");
 require("dotenv").config();
-
-
 const app = express();
+
+// Importing Routes
+const instructorRoutes = require("./router/instructor.router");
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -12,9 +13,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.set("port", process.env.port || 3000);
 
-// app.get("/", (req, res) => {
-//   return res.send("This is my first express server");
-// })
+app.use("/api", instructorRoutes);
 
 (async () => {
   try {
