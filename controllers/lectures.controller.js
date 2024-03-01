@@ -17,6 +17,18 @@ exports.getAllLecture = async (req, res) => {
 exports.addLecture = async (req, res) => {
   try {
     const { date, instructor, course } = req.body;
+
+    // Checking is instructoir already assigned to a lecture on given date
+    const existingLecture = await Lecture.findOne({ date, instructor });
+    if (existingLecture) {
+      return res
+        .status(400)
+        .json({
+          message: "Instructor is already assigned to a lecture on this date",
+        });
+    }
+
+    // Create and save the new lecture
     const newLecture = new Lecture({ date, instructor, course });
     await newLecture.save();
     res.status(201).json(newLecture);
