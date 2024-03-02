@@ -21,9 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.set("port", process.env.port || 3000);
 
-// app.use("/api/admin", adminAuthRoutes);
-// app.use("/api/instructor", instructorAuthRoutes);
-// app.use("/api/admin/protected", protectedAdminRoutes);
+// importing routes
 app.use("/api/auth/adminpanel", adminAuthRoutes);
 app.use("/api/auth/instructorpanel", instructorAuthRoutes);
 app.use("/api", instructorRoutes);

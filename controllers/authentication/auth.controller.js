@@ -1,5 +1,3 @@
-// controllers/authentication/auth.controller.js
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../model/authentication/user.model");
@@ -9,11 +7,12 @@ const adminLogin = async (req, res) => {
     const { username, password } = req.body;
 
     // Find the admin user in the database by username
-    const adminUser = await User.findOne({ username, role: "admin" });
+    const adminUser = await User.findOne({ username, password, role: "admin" });
 
-    // If admin user not found or password does not match, return error
-    if (!adminUser || !(await bcrypt.compare(password, adminUser.password))) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    if (!adminUser) {
+      return res
+        .status(401)
+        .send({ success: false, message: "Invalid Credentials!!" });
     }
 
     // Generate JWT token with user data
@@ -35,18 +34,15 @@ const instructorLogin = async (req, res) => {
     const { username, password } = req.body;
 
     // Find the instructor user in the database by username
-    const instructorUser = await User.findOne({ username, role: "instructor" });
+    const instructorUser = await User.findOne({
+      username,
+      password,
+      role: "instructor",
+    });
 
     // If instructor user not found, return error
     if (!instructorUser) {
       console.error("Instructor user not found.");
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    // Check if the provided password matches the hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, instructorUser.password);
-    if (!passwordMatch) {
-      console.error("Password does not match.");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -66,5 +62,5 @@ const instructorLogin = async (req, res) => {
 
 module.exports = {
   adminLogin,
-  instructorLogin
+  instructorLogin,
 };
