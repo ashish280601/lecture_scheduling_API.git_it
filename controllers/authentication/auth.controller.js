@@ -10,7 +10,7 @@ const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'admin@12345';
 
 // Hardcoded instructor credentials
-const INSTRUCTOR_USERNAME = 'mehra';
+const INSTRUCTOR_USERNAME = 'ashish';
 const INSTRUCTOR_PASSWORD = 'mehra@1234';
 
 // Get JWT secret key from environment variables
