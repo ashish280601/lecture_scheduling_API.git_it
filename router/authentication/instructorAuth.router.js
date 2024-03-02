@@ -1,7 +1,8 @@
-const router =  require('express').Router();
-const { instructorPanel } = require('../../controllers/authentication/instructor.controller');
-const { authenticateToken, authorize } = require('../../middleware/auth');
+const router = require('express').Router();
+const authController = require('../../controllers/authentication/auth.controller');
+const authenticateInstructor = require('../../middleware/auth')('instructor');
 
-router.get('/', authenticateToken, authorize(['instructor']), instructorPanel);
+// Instructor login route
+router.post("instructor/login",authenticateInstructor, authController.instructorLogin);
 
 module.exports = router;

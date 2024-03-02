@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const adminAuthController = require("../../controllers/authentication/adminAuth.controller");
+const authController = require('../../controllers/authentication/auth.controller');
+const authenticateAdmin = require('../../middleware/auth')('admin');
 
-
-router.post('/login', adminAuthController.login);
+router.post("/admin/login",authenticateAdmin, authController.adminLogin);
 
 module.exports = router;

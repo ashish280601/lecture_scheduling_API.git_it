@@ -11,10 +11,8 @@ const courseRoutes = require("./router/course.router")
 const lectureRoutes = require("./router/lecture.router");
 
 // importing authentication routes
-// const adminAuthRoutes = require("./router/authentication/adminAuth.router");
-// const instructorAuthRoutes = require("./router/authentication/instructorAuth.router");
-// const protectedAdminRoutes = require("./router/authentication/protectedAdmin.router");
-const authRoutes = require('./router/authentication/auth.router');
+const adminAuthRoutes = require('./router/authentication/adminAuth.router');
+const instructorAuthRoutes = require('./router/authentication/instructorAuth.router');
 
 // middleware
 app.use(cors());
@@ -26,10 +24,13 @@ app.set("port", process.env.port || 3000);
 // app.use("/api/admin", adminAuthRoutes);
 // app.use("/api/instructor", instructorAuthRoutes);
 // app.use("/api/admin/protected", protectedAdminRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/auth/adminpanel", adminAuthRoutes);
+app.use("/api/auth/instructorpanel", instructorAuthRoutes);
 app.use("/api", instructorRoutes);
 app.use("/api", courseRoutes);
 app.use("/api", lectureRoutes);
+
+
 
 (async () => {
   try {
