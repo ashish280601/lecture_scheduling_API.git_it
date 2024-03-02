@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { log } = require('console');
 
 // Load environment variables
 require('dotenv').config();
@@ -21,6 +22,7 @@ const SECRET_KEY = crypto.randomBytes(64).toString('hex');
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
+    log(req.body)
 
     // Check if user is admin
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
@@ -34,7 +36,9 @@ const login = async (req, res) => {
       return res.status(200).json({ token });
     }
 
-    res.status(401).json({ message: 'Invalid credentials' });
+    if (!isAdmin) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
